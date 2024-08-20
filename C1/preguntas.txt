@@ -1,0 +1,78 @@
+##¿Qué palabra clave se utiliza para crear una nueva instancia de una clase en Java?
+{
+~class
+=new
+~instance
+~object
+}
+##¿Qué es la encapsulación en Java?
+{
+=Proteger el acceso a los atributos mediante métodos getters y setters
+~Heredar métodos y atributos de una clase padre
+~Crear instancias de una clase
+~Implementar interfaces
+}
+##¿Cuál es la principal diferencia entre una clase y un objeto en Java?
+{
+~Una clase es un objeto; un objeto es una clase.
+=Una clase es una plantilla; un objeto es una instancia de una clase.
+~Una clase no tiene métodos; un objeto sí.
+~Una clase no puede tener atributos; un objeto sí.
+}
+##¿Qué es el polimorfismo en Java?
+{
+~La capacidad de un objeto para cambiar de tipo en tiempo de ejecución
+=La capacidad de una clase para tener múltiples métodos con el mismo nombre pero diferentes parámetros
+~La capacidad de una clase para heredar de múltiples clases
+~La capacidad de una clase para tener múltiples constructores
+}
+##¿Qué significa la palabra clave super en Java?
+{
+~Se usa para crear instancias de una clase
+~Se usa para llamar a un método de la clase actual
+=Se usa para acceder a métodos y atributos de la clase padre
+~Se usa para definir métodos estáticos
+}
+##¿Qué es un constructor en Java?
+{
+=Un método que se llama cuando se crea un objeto
+~Un atributo especial de una clase
+~Un tipo de método que no tiene parámetros
+~Un método que inicializa atributos privados
+}
+##¿Qué papel juegan los constructores en el principio de encapsulación en Java?
+{
+=Los constructores inicializan los atributos de una clase y garantizan que los objetos sean creados en un estado válido.
+~Los constructores permiten que los métodos de una clase se modifiquen después de la creación del objeto.
+~Los constructores heredan atributos y métodos de clases base.
+~Los constructores se utilizan para ocultar detalles internos de una clase.
+}
+## El uso de la palabra clave static en un método o atributo permite que estos sean accedidos sin crear una instancia de la clase.{V}
+##¿Qué salida generará el siguiente código cuando se ejecute?
+{
+	 public class Animal {
+	    public void hacerSonido() {
+        	System.out.println("Animal realiza una accion ");
+	    }
+	}
+
+	public class Perro extends Animal {
+	    public void hacerSonido() {
+        	System.out.println("Perro ladra");
+    	}
+	public class Perro_1 extends Animal {
+	    public void hacerSonido() {
+        	System.out.println("Perro muerde");
+	}
+
+	public class Main {
+    	public static void main(String[] args) {
+        	Animal a = new Perro();
+    	    a.hacerSonido();
+  	  }
+~Animal realiza una accion
+=Perro ladra
+~Perro muerde
+~No genera salida
+}
+##Las clases abstractas en Java no pueden tener constructores{F}
