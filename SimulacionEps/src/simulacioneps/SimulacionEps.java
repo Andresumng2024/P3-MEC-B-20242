@@ -77,13 +77,7 @@ public class SimulacionEps extends JFrame {
         tablaRegistros = new JTable(modeloTabla);
 
         // Ajustar ancho de la columna "Servicio"
-        TableColumnModel columnModel = tablaRegistros.getColumnModel();
-        columnModel.getColumn(2).setPreferredWidth(150); // Aumentar el ancho de la columna "Servicio"
-
-        // Centrar texto en la tabla
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablaRegistros.setDefaultRenderer(Object.class, centerRenderer);
+        
 
         // Mensaje al superar 10 registros
         lblMensaje = new JLabel("");
@@ -169,6 +163,21 @@ public class SimulacionEps extends JFrame {
             }, 0, 1000); // Actualización cada segundo
         } else {
             lblMensaje.setText("La EPS ha cerrado.");
+        }
+    }
+private void actualizarTemporizador() {
+        if (tiempoRestante > 0) {
+            tiempoRestante--;
+        }
+        lblTiempoRestante.setText("Tiempo restante: " + (tiempoRestante / 60) + ":" + String.format("%02d", (tiempoRestante % 60)) + " minutos");
+
+        if (tiempoRestante <= 0) {
+            temporizador.cancel();
+            String horaSalida = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            modeloTabla.setValueAt(horaSalida, indicePacienteActual, 4); // Actualizar hora de salida
+            indicePacienteActual++;
+            sliderTiempo.setValue(2); // Restablecer a 1 minuto (2 unidades)
+            atenderPacientes(); // Pasar al siguiente paciente
         }
     }
 
