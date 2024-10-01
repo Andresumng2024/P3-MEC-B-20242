@@ -91,6 +91,25 @@ public class SimulacionEps extends JFrame {
         lblMensaje.setHorizontalAlignment(JLabel.CENTER);
         lblMensaje.setFont(new Font("Arial", Font.BOLD, 16)); // Aumentar tamaño de letra
         
+          // Slider para ajustar el tiempo, ahora permite 0 minutos
+        sliderTiempo = new JSlider(0, 15, 1);
+        sliderTiempo.setMajorTickSpacing(2);
+        sliderTiempo.setMinorTickSpacing(1);
+        sliderTiempo.setPaintTicks(true);
+        sliderTiempo.setPaintLabels(true);
+
+        lblTiempoRestante = new JLabel("Tiempo de atención: 1 minuto");
+
+        sliderTiempo.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int tiempoSeleccionado = sliderTiempo.getValue();
+                lblTiempoRestante.setText("Tiempo de atención: " + tiempoSeleccionado + " minuto" + (tiempoSeleccionado != 1 ? "s" : ""));
+                tiempoRestante = tiempoSeleccionado * 60; // Cambiar el tiempo restante en tiempo real
+            }
+        });
+
+        
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
     }
