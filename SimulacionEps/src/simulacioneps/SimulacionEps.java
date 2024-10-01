@@ -116,6 +116,13 @@ public class SimulacionEps extends JFrame {
                 registrarPaciente();
             }
         });
+        
+        // Agregar componentes al JFrame
+        add(panelRegistro, BorderLayout.NORTH);
+        add(new JScrollPane(tablaRegistros), BorderLayout.CENTER);
+        add(lblMensaje, BorderLayout.SOUTH);
+        add(sliderTiempo, BorderLayout.EAST);
+        add(lblTiempoRestante, BorderLayout.WEST);
 
         
     public static void main(String[] args) {
