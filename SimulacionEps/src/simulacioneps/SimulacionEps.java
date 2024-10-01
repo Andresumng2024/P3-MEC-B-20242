@@ -72,6 +72,24 @@ public class SimulacionEps extends JFrame {
         lblMensaje.setHorizontalAlignment(JLabel.CENTER);
         lblMensaje.setFont(new Font("Arial", Font.BOLD, 16)); // Aumentar tamaño de letra
         
+        // Panel para la tabla
+        modeloTabla = new DefaultTableModel(new String[]{"Cédula", "Categoría", "Servicio", "Hora de Registro", "Hora de Salida"}, 0);
+        tablaRegistros = new JTable(modeloTabla);
+
+        // Ajustar ancho de la columna "Servicio"
+        TableColumnModel columnModel = tablaRegistros.getColumnModel();
+        columnModel.getColumn(2).setPreferredWidth(150); // Aumentar el ancho de la columna "Servicio"
+
+        // Centrar texto en la tabla
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tablaRegistros.setDefaultRenderer(Object.class, centerRenderer);
+
+        // Mensaje al superar 10 registros
+        lblMensaje = new JLabel("");
+        lblMensaje.setForeground(Color.RED);
+        lblMensaje.setHorizontalAlignment(JLabel.CENTER);
+        lblMensaje.setFont(new Font("Arial", Font.BOLD, 16)); // Aumentar tamaño de letra
         
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
