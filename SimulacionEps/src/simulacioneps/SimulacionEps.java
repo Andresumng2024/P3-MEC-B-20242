@@ -124,6 +124,11 @@ public class SimulacionEps extends JFrame {
         add(sliderTiempo, BorderLayout.EAST);
         add(lblTiempoRestante, BorderLayout.WEST);
 
+        // Configurar la ventana
+        setSize(800, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
         
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
