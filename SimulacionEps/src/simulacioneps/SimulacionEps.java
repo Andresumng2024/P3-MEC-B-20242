@@ -153,6 +153,25 @@ public class SimulacionEps extends JFrame {
             }, 2000); // Esperar 2 segundos antes de iniciar la atención
         }
     }
+          private void atenderPacientes() {
+        if (indicePacienteActual < modeloTabla.getRowCount()) {
+            String cedula = (String) modeloTabla.getValueAt(indicePacienteActual, 0);
+            String servicio = (String) modeloTabla.getValueAt(indicePacienteActual, 2);
+            lblMensaje.setText("Atendiendo al paciente #" + cedula + ", Servicio: " + servicio);
+
+            tiempoRestante = sliderTiempo.getValue() * 60; // Convertir minutos a segundos
+            temporizador = new Timer();
+            temporizador.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    SwingUtilities.invokeLater(() -> actualizarTemporizador());
+                }
+            }, 0, 1000); // Actualización cada segundo
+        } else {
+            lblMensaje.setText("La EPS ha cerrado.");
+        }
+    }
+
          
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
