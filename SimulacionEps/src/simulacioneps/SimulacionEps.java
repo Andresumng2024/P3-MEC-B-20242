@@ -108,6 +108,14 @@ public class SimulacionEps extends JFrame {
                 tiempoRestante = tiempoSeleccionado * 60; // Cambiar el tiempo restante en tiempo real
             }
         });
+        
+        // Acción del botón Registrar
+        btnRegistrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registrarPaciente();
+            }
+        });
 
         
     public static void main(String[] args) {
