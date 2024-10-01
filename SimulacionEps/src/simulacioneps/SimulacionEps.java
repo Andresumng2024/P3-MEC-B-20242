@@ -53,7 +53,7 @@ public class SimulacionEps extends JFrame {
         JButton btnRegistrar = new JButton("Registrar Paciente");
         panelRegistro.add(btnRegistrar);
 
-       // Panel para la tabla
+        // Panel para la tabla
         modeloTabla = new DefaultTableModel(new String[]{"Cédula", "Categoría", "Servicio", "Hora de Registro", "Hora de Salida"}, 0);
         tablaRegistros = new JTable(modeloTabla);
 
@@ -71,21 +71,8 @@ public class SimulacionEps extends JFrame {
         lblMensaje.setForeground(Color.RED);
         lblMensaje.setHorizontalAlignment(JLabel.CENTER);
         lblMensaje.setFont(new Font("Arial", Font.BOLD, 16)); // Aumentar tamaño de letra
-        
-        // Panel para la tabla
-        modeloTabla = new DefaultTableModel(new String[]{"Cédula", "Categoría", "Servicio", "Hora de Registro", "Hora de Salida"}, 0);
-        tablaRegistros = new JTable(modeloTabla);
 
-        // Ajustar ancho de la columna "Servicio"
-        
-
-        // Mensaje al superar 10 registros
-        lblMensaje = new JLabel("");
-        lblMensaje.setForeground(Color.RED);
-        lblMensaje.setHorizontalAlignment(JLabel.CENTER);
-        lblMensaje.setFont(new Font("Arial", Font.BOLD, 16)); // Aumentar tamaño de letra
-        
-          // Slider para ajustar el tiempo, ahora permite 0 minutos
+        // Slider para ajustar el tiempo, ahora permite 0 minutos
         sliderTiempo = new JSlider(0, 15, 1);
         sliderTiempo.setMajorTickSpacing(2);
         sliderTiempo.setMinorTickSpacing(1);
@@ -102,7 +89,7 @@ public class SimulacionEps extends JFrame {
                 tiempoRestante = tiempoSeleccionado * 60; // Cambiar el tiempo restante en tiempo real
             }
         });
-        
+
         // Acción del botón Registrar
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
@@ -110,7 +97,7 @@ public class SimulacionEps extends JFrame {
                 registrarPaciente();
             }
         });
-        
+
         // Agregar componentes al JFrame
         add(panelRegistro, BorderLayout.NORTH);
         add(new JScrollPane(tablaRegistros), BorderLayout.CENTER);
@@ -123,7 +110,8 @@ public class SimulacionEps extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-         private void registrarPaciente() {
+
+    private void registrarPaciente() {
         String cedula = txtCedula.getText();
         String categoria = (String) cmbCategoria.getSelectedItem();
         String servicio = (String) cmbServicio.getSelectedItem();
@@ -147,60 +135,42 @@ public class SimulacionEps extends JFrame {
             }, 2000); // Esperar 2 segundos antes de iniciar la atención
         }
     }
-        private void atenderPacientes() {
-    if (indicePacienteActual < modeloTabla.getRowCount()) {
-        // Obtener los datos del paciente actual
-        String cedula = (String) modeloTabla.getValueAt(indicePacienteActual, 0);
-        String servicio = (String) modeloTabla.getValueAt(indicePacienteActual, 2);
-        
-        // Mostrar mensaje de atención al paciente
-        lblMensaje.setText("Atendiendo al paciente #" + cedula + ", Servicio: " + servicio);
 
-        // Eliminar paciente de la tabla
-        modeloTabla.removeRow(indicePacienteActual);
-
-        // Ajustar el índice de paciente actual
-        // No se incrementa aquí ya que se eliminó el paciente
-       
-        tiempoRestante = sliderTiempo.getValue() * 60; // Convertir minutos a segundos
-        temporizador = new Timer();
-        temporizador.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                SwingUtilities.invokeLater(() -> actualizarTemporizador());
-            }
-        }, 0, 1000); // Actualización cada segundo
-    } else {
-        lblMensaje.setText("La EPS ha cerrado.");
-    }
-}
-private void actualizarTemporizador() {
-    if (tiempoRestante > 0) {
-        tiempoRestante--;
-    }
-    lblTiempoRestante.setText("Tiempo restante: " + (tiempoRestante / 60) + ":" + String.format("%02d", (tiempoRestante % 60)) + " minutos");
-
-    if (tiempoRestante <= 0) {
-        temporizador.cancel();
-        String horaSalida = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        modeloTabla.setValueAt(horaSalida, indicePacienteActual, 4); // Actualizar hora de salida
-
-        // Eliminar paciente de la tabla
-        modeloTabla.removeRow(indicePacienteActual); // Elimina la fila del paciente atendido
-
-        // Ajustar el índice del paciente actual
+    private void atenderPacientes() {
         if (indicePacienteActual < modeloTabla.getRowCount()) {
-            // No incrementamos si aún quedan pacientes
-            atenderPacientes(); // Pasar al siguiente paciente
+            String cedula = (String) modeloTabla.getValueAt(indicePacienteActual, 0);
+            String servicio = (String) modeloTabla.getValueAt(indicePacienteActual, 2);
+            lblMensaje.setText("Atendiendo al paciente #" + cedula + ", Servicio: " + servicio);
+
+            tiempoRestante = sliderTiempo.getValue() * 60; // Convertir minutos a segundos
+            temporizador = new Timer();
+            temporizador.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    SwingUtilities.invokeLater(() -> actualizarTemporizador());
+                }
+            }, 0, 1000); // Actualización cada segundo
         } else {
             lblMensaje.setText("La EPS ha cerrado.");
         }
-
-        // Restablecer el tiempo del slider
-        sliderTiempo.setValue(1); // Restablecer a 1 minuto (1 unidad)
     }
-}
-         
+
+    private void actualizarTemporizador() {
+        if (tiempoRestante > 0) {
+            tiempoRestante--;
+        }
+        lblTiempoRestante.setText("Tiempo restante: " + (tiempoRestante / 60) + ":" + String.format("%02d", (tiempoRestante % 60)) + " minutos");
+
+        if (tiempoRestante <= 0) {
+            temporizador.cancel();
+            String horaSalida = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            modeloTabla.setValueAt(horaSalida, indicePacienteActual, 4); // Actualizar hora de salida
+            indicePacienteActual++;
+            sliderTiempo.setValue(2); // Restablecer a 1 minuto (2 unidades)
+            atenderPacientes(); // Pasar al siguiente paciente
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
     }
