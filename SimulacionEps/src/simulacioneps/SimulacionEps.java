@@ -147,24 +147,33 @@ public class SimulacionEps extends JFrame {
             }, 2000); // Esperar 2 segundos antes de iniciar la atención
         }
     }
-          private void atenderPacientes() {
-        if (indicePacienteActual < modeloTabla.getRowCount()) {
-            String cedula = (String) modeloTabla.getValueAt(indicePacienteActual, 0);
-            String servicio = (String) modeloTabla.getValueAt(indicePacienteActual, 2);
-            lblMensaje.setText("Atendiendo al paciente #" + cedula + ", Servicio: " + servicio);
+        private void atenderPacientes() {
+    if (indicePacienteActual < modeloTabla.getRowCount()) {
+        // Obtener los datos del paciente actual
+        String cedula = (String) modeloTabla.getValueAt(indicePacienteActual, 0);
+        String servicio = (String) modeloTabla.getValueAt(indicePacienteActual, 2);
+        
+        // Mostrar mensaje de atención al paciente
+        lblMensaje.setText("Atendiendo al paciente #" + cedula + ", Servicio: " + servicio);
 
-            tiempoRestante = sliderTiempo.getValue() * 60; // Convertir minutos a segundos
-            temporizador = new Timer();
-            temporizador.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    SwingUtilities.invokeLater(() -> actualizarTemporizador());
-                }
-            }, 0, 1000); // Actualización cada segundo
-        } else {
-            lblMensaje.setText("La EPS ha cerrado.");
-        }
+        // Eliminar paciente de la tabla
+        modeloTabla.removeRow(indicePacienteActual);
+
+        // Ajustar el índice de paciente actual
+        // No se incrementa aquí ya que se eliminó el paciente
+       
+        tiempoRestante = sliderTiempo.getValue() * 60; // Convertir minutos a segundos
+        temporizador = new Timer();
+        temporizador.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                SwingUtilities.invokeLater(() -> actualizarTemporizador());
+            }
+        }, 0, 1000); // Actualización cada segundo
+    } else {
+        lblMensaje.setText("La EPS ha cerrado.");
     }
+}
 private void actualizarTemporizador() {
     if (tiempoRestante > 0) {
         tiempoRestante--;
