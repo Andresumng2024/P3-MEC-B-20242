@@ -129,7 +129,31 @@ public class SimulacionEps extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-        
+         private void registrarPaciente() {
+        String cedula = txtCedula.getText();
+        String categoria = (String) cmbCategoria.getSelectedItem();
+        String servicio = (String) cmbServicio.getSelectedItem();
+        String horaRegistro = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        // Agregar datos a la tabla
+        modeloTabla.addRow(new Object[]{cedula, categoria, servicio, horaRegistro, ""});
+        contadorRegistros++;
+
+        // Limpiar campos
+        txtCedula.setText("");
+
+        // Mostrar mensaje cuando haya 10 registros
+        if (contadorRegistros >= 10 && temporizador == null) {
+            lblMensaje.setText("El servicio de atención en la EPS ha iniciado.");
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    SwingUtilities.invokeLater(() -> atenderPacientes());
+                }
+            }, 2000); // Esperar 2 segundos antes de iniciar la atención
+        }
+    }
+         
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SimulacionEps());
     }
